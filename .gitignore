@@ -1,0 +1,57 @@
+# Flutter/Dart specific
+**/build/
+.dart_tool/
+.idea/
+.vscode/
+android/.gradle/
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/.last_build_id
+.DS_Store
+
+# Generated files
+*.iml
+*.lock
+*.log
+*.metadata
+*.flutter-plugins
+*.flutter-plugins-dependencies
+*.idea/workspace.xml
+*.idea/libraries/
+*.jimdb
+*.pbxuser
+*.perspectivev3
+*.mode1v3
+*.xcuserstate
+DerivedData/
+build/
+
+# Android related
+*.android.iml
+*.apk
+*.ap_
+*.dex
+*.jks
+*.keystore
+*.android_key.properties
+
+# iOS related
+*.xcworkspace
+*.xccheckout
+*.xcuserstate
+*.xcscmblueprint
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcshareddata/
+*.xcodeproj/xcuserdata/
+*.pbxproj
+
+# Visual Studio Code specific
+.vscode/
+.code-workspace
+
+# Android Studio specific
+*.iml
+*.iws
+*.ipr
+.idea/
