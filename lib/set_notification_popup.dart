@@ -1,101 +1,137 @@
 import 'package:flutter/material.dart';
 
 class NotificationPopup extends StatelessWidget {
-  final String item;
-
-  NotificationPopup({required this.item});
+  const NotificationPopup({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'New notification',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
+            _buildHeader(context),
+            SizedBox(height: 16.0),
+            _buildDropdownWithTitle(
+              title: 'Notification Type',
+              dropdownItems: ['Innings Started', 'Wicket Count'],
             ),
             SizedBox(height: 16.0),
-            Text(
-              'Match: $item',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            _buildDropdownWithTitle(
+              title: 'Team in Question',
+              dropdownItems: ['Team A', 'Team B'],
             ),
             SizedBox(height: 16.0),
-            Text('Notification type'),
-            DropdownButton<String>(
-              value: null,
-              onChanged: (String? newValue) {
-                // Handle dropdown value change
-              },
-              items: <String>[
-                'Innings started',
-                'Wicket count',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+            _buildWicketCountDropdown(),
             SizedBox(height: 16.0),
-            Text('Team in question'),
-            DropdownButton<String>(
-              value: null,
-              onChanged: (String? newValue) {
-                // Handle dropdown value change
-              },
-              items: <String>[
-                'Team A',
-                'Team B',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 16.0),
-            Text('Wicket count'),
-            DropdownButton<int>(
-              value: null,
-              onChanged: (int? newValue) {
-                // Handle dropdown value change
-              },
-              items: List<DropdownMenuItem<int>>.generate(10, (int index) {
-                return DropdownMenuItem<int>(
-                  value: index + 1,
-                  child: Text((index + 1).toString()),
-                );
-              }),
-            ),
-            SizedBox(height: 16.0),
-            Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Save button logic
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  primary: Colors.green,
-                ),
-                child: Text('Save'),
-              ),
-            ),
+            _buildSaveButton(context),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        Text(
+          'New Notification',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+          ),
+        ),
+        SizedBox(width: 48.0),
+      ],
+    );
+  }
+
+  Widget _buildDropdownWithTitle(
+      {required String title, required List<String> dropdownItems}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8.0),
+        DropdownButtonFormField<String>(
+          items: dropdownItems
+              .map(
+                (item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {},
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWicketCountDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Wicket Count',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 8.0),
+        DropdownButtonFormField<int>(
+          items: List.generate(
+            10,
+            (index) => DropdownMenuItem<int>(
+              value: index + 1,
+              child: Text((index + 1).toString()),
+            ),
+          ),
+          onChanged: (value) {},
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSaveButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // Handle save button click
+      },
+      style: ElevatedButton.styleFrom(
+        primary: Colors.green,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
+      child: Text(
+        'Save',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16.0,
         ),
       ),
     );

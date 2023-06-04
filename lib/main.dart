@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       home: LandingPage(),
       routes: {
-        '/page1': (context) => Page1(),
-        '/page2': (context) => Page2(),
+        '/page1': (context) => MatchesPage(),
+        '/page2': (context) => NotificationsPage(),
       },
     );
   }
