@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'matches_page.dart'; // Import Page1
-import 'notifications_page.dart'; // Import Page2
+import 'matches_page.dart';
+import 'notifications_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       home: LandingPage(),
       routes: {
-        '/page1': (context) => MatchesPage(),
-        '/page2': (context) => NotificationsPage(),
+        '/matches': (context) => MatchesPage(),
+        '/notifications': (context) => NotificationsPage(),
       },
     );
   }
@@ -49,7 +49,7 @@ class LandingPage extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/page1');
+                          Navigator.pushNamed(context, '/matches');
                         },
                         child: Icon(
                           Icons.sports_cricket,
@@ -88,7 +88,7 @@ class LandingPage extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/page2');
+                          Navigator.pushNamed(context, '/notifications');
                         },
                         child: Icon(
                           Icons.notifications,

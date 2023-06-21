@@ -36,7 +36,7 @@ class _MatchesPageState extends State<MatchesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('Matches'),
         actions: [
           IconButton(
             icon: Icon(Icons.filter_list),
