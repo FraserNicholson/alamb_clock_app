@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 
-class NotificationPopup extends StatelessWidget {
-  const NotificationPopup({super.key});
+class NotificationPopup extends StatefulWidget {
+  final List<String> notificationTypes = ['Innings Started', 'Wicket Count'];
+  String selectedNotificationType;
+  final List<String> teams;
+  String selectedTeam;
+  int? selectedWicketCount;
+  bool showWicketCountSelector = false;
 
+  NotificationPopup(
+      {super.key,
+      required this.selectedNotificationType,
+      required this.selectedTeam,
+      required this.selectedWicketCount,
+      required this.teams}) {
+    showWicketCountSelector = selectedNotificationType == 'Wicket Count';
+  }
+
+  @override
+  State<NotificationPopup> createState() => _NotificationPopupState();
+}
+
+class _NotificationPopupState extends State<NotificationPopup> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -10,25 +29,20 @@ class NotificationPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildHeader(context),
-            SizedBox(height: 16.0),
-            _buildDropdownWithTitle(
-              title: 'Notification Type',
-              dropdownItems: ['Innings Started', 'Wicket Count'],
+            const SizedBox(height: 16.0),
+            _buildNotificationTypeDropdown(),
+            _buildTeamInQuestionDropdown(),
+            Visibility(
+              visible: widget.showWicketCountSelector,
+              child: _buildWicketCountDropdown(),
             ),
-            SizedBox(height: 16.0),
-            _buildDropdownWithTitle(
-              title: 'Team in Question',
-              dropdownItems: ['Team A', 'Team B'],
-            ),
-            SizedBox(height: 16.0),
-            _buildWicketCountDropdown(),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             _buildSaveButton(context),
           ],
         ),
@@ -41,37 +55,39 @@ class NotificationPopup extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        Text(
+        const Text(
           'New Notification',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
         ),
-        SizedBox(width: 48.0),
+        const SizedBox(width: 48.0),
       ],
     );
   }
 
-  Widget _buildDropdownWithTitle(
-      {required String title, required List<String> dropdownItems}) {
+  Widget _buildNotificationTypeDropdown() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
+        const Text(
+          'Notification type',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         DropdownButtonFormField<String>(
-          items: dropdownItems
+          value: widget.selectedNotificationType == ''
+              ? null
+              : widget.selectedNotificationType,
+          items: widget.notificationTypes
               .map(
                 (item) => DropdownMenuItem<String>(
                   value: item,
@@ -79,8 +95,47 @@ class NotificationPopup extends StatelessWidget {
                 ),
               )
               .toList(),
-          onChanged: (value) {},
-          decoration: InputDecoration(
+          onChanged: (value) {
+            widget.selectedNotificationType = value!;
+            setState(() {
+              widget.showWicketCountSelector =
+                  widget.selectedNotificationType == 'Wicket Count';
+            });
+          },
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTeamInQuestionDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 8.0),
+        const Text(
+          'Team in question',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        DropdownButtonFormField<String>(
+          value: widget.selectedTeam,
+          items: widget.teams
+              .map(
+                (item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            widget.selectedTeam = value!;
+          },
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),
@@ -92,14 +147,16 @@ class NotificationPopup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const SizedBox(height: 8.0),
+        const Text(
           'Wicket Count',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         DropdownButtonFormField<int>(
+          value: widget.selectedWicketCount,
           items: List.generate(
             10,
             (index) => DropdownMenuItem<int>(
@@ -107,8 +164,10 @@ class NotificationPopup extends StatelessWidget {
               child: Text((index + 1).toString()),
             ),
           ),
-          onChanged: (value) {},
-          decoration: InputDecoration(
+          onChanged: (value) {
+            widget.selectedWicketCount = value!;
+          },
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),
@@ -127,7 +186,7 @@ class NotificationPopup extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
       ),
-      child: Text(
+      child: const Text(
         'Save',
         style: TextStyle(
           fontWeight: FontWeight.bold,

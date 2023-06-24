@@ -31,7 +31,12 @@ class ItemDetailsPopup extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return NotificationPopup();
+                        return NotificationPopup(
+                          selectedNotificationType: '',
+                          selectedTeam: '',
+                          selectedWicketCount: null,
+                          teams: [],
+                        );
                       },
                     );
                   },
