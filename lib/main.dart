@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'matches_page.dart';
-import 'notifications_page.dart';
+import 'pages/matches_page.dart';
+import 'pages/notifications_page.dart';
 
 void main() {
   runApp(const App());

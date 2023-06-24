@@ -1,5 +1,5 @@
+import 'package:alamb_clock_app/widgets/filter_chip.dart';
 import 'package:flutter/material.dart';
-import 'filter_chip.dart';
 
 class MatchesFiltersModal extends StatefulWidget {
   const MatchesFiltersModal({super.key});

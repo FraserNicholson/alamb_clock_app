@@ -1,6 +1,6 @@
+import 'package:alamb_clock_app/models/notification.dart';
+import 'package:alamb_clock_app/widgets/set_notification_popup.dart';
 import 'package:flutter/material.dart';
-import 'notification.dart';
-import 'set_notification_popup.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});

@@ -1,4 +1,4 @@
-import 'package:alamb_clock_app/set_notification_popup.dart';
+import 'package:alamb_clock_app/widgets/set_notification_popup.dart';
 import 'package:flutter/material.dart';
 
 class ItemDetailsPopup extends StatelessWidget {

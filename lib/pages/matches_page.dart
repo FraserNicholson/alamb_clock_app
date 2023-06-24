@@ -1,6 +1,6 @@
-import 'package:alamb_clock_app/filters_modal.dart';
+import 'package:alamb_clock_app/widgets/filters_modal.dart';
+import 'package:alamb_clock_app/widgets/item_details_popup.dart';
 import 'package:flutter/material.dart';
-import 'item_details_popup.dart';
 
 class MatchesPage extends StatefulWidget {
   const MatchesPage({super.key});
