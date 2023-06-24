@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'matches_page.dart';
 import 'notifications_page.dart';
 
@@ -11,7 +12,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return OverlaySupport(
+        child: MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -21,7 +23,7 @@ class App extends StatelessWidget {
         '/matches': (context) => const MatchesPage(),
         '/notifications': (context) => const NotificationsPage(),
       },
-    );
+    ));
   }
 }
 

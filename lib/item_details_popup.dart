@@ -36,7 +36,7 @@ class ItemDetailsPopup extends StatelessWidget {
                           selectedNotificationType: '',
                           selectedTeam: '',
                           selectedWicketCount: null,
-                          teams: const [],
+                          teams: const ['Team1', 'Team2'],
                         );
                       },
                     );
