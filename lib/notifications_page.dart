@@ -62,7 +62,6 @@ class NotificationsPage extends StatelessWidget {
 
   void _showSetNotificationPopup(BuildContext context, NotificationModel item) {
     List<String> teams = [item.team1, item.team2];
-    print(item.numberOfWickets);
 
     showDialog(
       context: context,

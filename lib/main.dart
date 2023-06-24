@@ -3,10 +3,12 @@ import 'matches_page.dart';
 import 'notifications_page.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,26 +16,28 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(),
+      home: const LandingPage(),
       routes: {
-        '/matches': (context) => MatchesPage(),
-        '/notifications': (context) => NotificationsPage(),
+        '/matches': (context) => const MatchesPage(),
+        '/notifications': (context) => const NotificationsPage(),
       },
     );
   }
 }
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Landing Page'),
+        title: const Text('ALamb Clock'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Expanded(
             flex: 1,
             child: Center(
@@ -51,14 +55,14 @@ class LandingPage extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, '/matches');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.sports_cricket,
                           size: 100.0,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text(
+                      const SizedBox(height: 10.0),
+                      const Text(
                         'Matches',
                         style: TextStyle(
                           color: Colors.white,
@@ -72,7 +76,7 @@ class LandingPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Expanded(
             flex: 1,
             child: Center(
@@ -90,14 +94,14 @@ class LandingPage extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, '/notifications');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.notifications,
                           size: 100.0,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text(
+                      const SizedBox(height: 10.0),
+                      const Text(
                         'Notifications',
                         style: TextStyle(
                           color: Colors.white,
@@ -111,7 +115,7 @@ class LandingPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
         ],
       ),
     );

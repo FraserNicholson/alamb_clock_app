@@ -181,7 +181,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
         // Handle save button click
       },
       style: ElevatedButton.styleFrom(
-        primary: Colors.green,
+        backgroundColor: Colors.green,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ItemDetailsPopup extends StatelessWidget {
   final String item;
 
-  ItemDetailsPopup({required this.item});
+  const ItemDetailsPopup({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class ItemDetailsPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,10 +23,11 @@ class ItemDetailsPopup extends StatelessWidget {
               children: [
                 Text(
                   item,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
-                  icon: Icon(Icons.notifications),
+                  icon: const Icon(Icons.notifications),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -35,7 +36,7 @@ class ItemDetailsPopup extends StatelessWidget {
                           selectedNotificationType: '',
                           selectedTeam: '',
                           selectedWicketCount: null,
-                          teams: [],
+                          teams: const [],
                         );
                       },
                     );
@@ -43,14 +44,14 @@ class ItemDetailsPopup extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text('Field 1: Value 1'),
-            SizedBox(height: 8.0),
-            Text('Field 2: Value 2'),
-            SizedBox(height: 8.0),
-            Text('Field 3: Value 3'),
-            SizedBox(height: 8.0),
-            Text('Field 4: Value 4'),
+            const SizedBox(height: 16.0),
+            const Text('Field 1: Value 1'),
+            const SizedBox(height: 8.0),
+            const Text('Field 2: Value 2'),
+            const SizedBox(height: 8.0),
+            const Text('Field 3: Value 3'),
+            const SizedBox(height: 8.0),
+            const Text('Field 4: Value 4'),
           ],
         ),
       ),

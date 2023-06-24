@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'item_details_popup.dart';
 
 class MatchesPage extends StatefulWidget {
+  const MatchesPage({super.key});
+
   @override
-  _MatchesPageState createState() => _MatchesPageState();
+  State<MatchesPage> createState() => _MatchesPageState();
 }
 
 class _MatchesPageState extends State<MatchesPage> {
@@ -18,7 +20,7 @@ class _MatchesPageState extends State<MatchesPage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return MatchesFiltersModal();
+        return const MatchesFiltersModal();
       },
     );
   }
@@ -36,10 +38,10 @@ class _MatchesPageState extends State<MatchesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Matches'),
+        title: const Text('Matches'),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: () {
               _showFiltersModal(context);
             },
@@ -54,21 +56,22 @@ class _MatchesPageState extends State<MatchesPage> {
               _showItemDetailsPopup(context, items[index]);
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Item: ${items[index]}',
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     'Details: This is the details of ${items[index]}.',
                     maxLines: 2,

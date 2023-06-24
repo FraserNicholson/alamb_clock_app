@@ -5,14 +5,15 @@ class FilterChipWidget extends StatefulWidget {
   final List<String> selectedFilters;
   final Function(List<String>) onSelectionChanged;
 
-  FilterChipWidget({
+  const FilterChipWidget({
+    super.key,
     required this.options,
     required this.selectedFilters,
     required this.onSelectionChanged,
   });
 
   @override
-  _FilterChipWidgetState createState() => _FilterChipWidgetState();
+  State<FilterChipWidget> createState() => _FilterChipWidgetState();
 }
 
 class _FilterChipWidgetState extends State<FilterChipWidget> {

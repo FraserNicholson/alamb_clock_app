@@ -19,7 +19,7 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (context, setState) {
-        void _selectFilter(String filter, List<String> selectedFilters,
+        void selectFilter(String filter, List<String> selectedFilters,
             Function(List<String>) onSelectionChanged) {
           setState(() {
             if (selectedFilters.contains(filter)) {
@@ -32,7 +32,7 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
           onSelectionChanged(selectedFilters);
         }
 
-        void _resetFilters() {
+        void resetFilters() {
           setState(() {
             selectedGenderFilters.clear();
             selectedLevelFilters.clear();
@@ -41,19 +41,19 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
         }
 
         return Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Filters',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Gender',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -61,17 +61,17 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                 ),
               ),
               FilterChipWidget(
-                options: ['Female', 'Male'],
+                options: const ['Female', 'Male'],
                 selectedFilters: selectedGenderFilters,
                 onSelectionChanged: (selectedFilters) {
-                  _selectFilter(selectedFilters.first, selectedGenderFilters,
+                  selectFilter(selectedFilters.first, selectedGenderFilters,
                       (selected) {
                     selectedGenderFilters = selected;
                   });
                 },
               ),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Level',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -79,17 +79,17 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                 ),
               ),
               FilterChipWidget(
-                options: ['Domestic', 'International'],
+                options: const ['Domestic', 'International'],
                 selectedFilters: selectedLevelFilters,
                 onSelectionChanged: (selectedFilters) {
-                  _selectFilter(selectedFilters.first, selectedLevelFilters,
+                  selectFilter(selectedFilters.first, selectedLevelFilters,
                       (selected) {
                     selectedLevelFilters = selected;
                   });
                 },
               ),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Format',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -97,23 +97,23 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                 ),
               ),
               FilterChipWidget(
-                options: ['Test/First class', 'One day', 'T20', '100'],
+                options: const ['Test/First class', 'One day', 'T20', '100'],
                 selectedFilters: selectedFormatFilters,
                 onSelectionChanged: (selectedFilters) {
-                  _selectFilter(selectedFilters.first, selectedFormatFilters,
+                  selectFilter(selectedFilters.first, selectedFormatFilters,
                       (selected) {
                     selectedFormatFilters = selected;
                   });
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Align(
                 alignment: Alignment.centerLeft,
                 child: ElevatedButton(
                   onPressed: () {
-                    _resetFilters();
+                    resetFilters();
                   },
-                  child: Text('Reset Filters'),
+                  child: const Text('Reset Filters'),
                 ),
               ),
             ],
