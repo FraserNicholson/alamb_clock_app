@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NotificationPopup extends StatefulWidget {
   final List<String> notificationTypes = ['Innings Started', 'Wicket Count'];
   String selectedNotificationType;
@@ -7,6 +8,7 @@ class NotificationPopup extends StatefulWidget {
   String selectedTeam;
   int? selectedWicketCount;
   bool showWicketCountSelector = false;
+  String? notificationTitleText;
 
   NotificationPopup(
       {super.key,
@@ -15,6 +17,9 @@ class NotificationPopup extends StatefulWidget {
       required this.selectedWicketCount,
       required this.teams}) {
     showWicketCountSelector = selectedNotificationType == 'Wicket Count';
+    notificationTitleText = selectedNotificationType != ''
+        ? 'Update Notification'
+        : 'Add Notification';
   }
 
   @override
@@ -60,9 +65,9 @@ class _NotificationPopupState extends State<NotificationPopup> {
             Navigator.of(context).pop();
           },
         ),
-        const Text(
-          'New Notification',
-          style: TextStyle(
+        Text(
+          widget.notificationTitleText!,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
