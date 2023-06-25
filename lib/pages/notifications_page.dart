@@ -1,4 +1,4 @@
-import 'package:alamb_clock_app/models/notification.dart';
+import 'package:alamb_clock_app/models/notification_model.dart';
 import 'package:alamb_clock_app/widgets/set_notification_popup.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +13,11 @@ class NotificationsPage extends StatelessWidget {
       ),
       body: ListView.separated(
           padding: const EdgeInsets.all(16.0),
-          itemCount: items.length,
+          itemCount: notifications.length,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final notification = notifications[index];
             return GestureDetector(
-              onTap: () => _showSetNotificationPopup(context, item),
+              onTap: () => _showSetNotificationPopup(context, notification),
               child: Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -28,7 +28,7 @@ class NotificationsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.matchTitle,
+                      notification.matchTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -36,17 +36,21 @@ class NotificationsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Notification type: ${item.notificationType}',
+                      'Match start time: ${notification.matchStartsAt}',
                       style: const TextStyle(fontSize: 14.0),
                     ),
                     Text(
-                      'Team in question: ${item.teamInQuestion}',
+                      'Notification type: ${notification.notificationType}',
+                      style: const TextStyle(fontSize: 14.0),
+                    ),
+                    Text(
+                      'Team in question: ${notification.teamInQuestion}',
                       style: const TextStyle(fontSize: 14.0),
                     ),
                     Visibility(
-                        visible: item.numberOfWickets != null,
+                        visible: notification.numberOfWickets != null,
                         child: Text(
-                          'Number of wickers: ${item.numberOfWickets.toString()}',
+                          'Number of wickers: ${notification.numberOfWickets.toString()}',
                           style: const TextStyle(fontSize: 14.0),
                         ))
                   ],
@@ -60,23 +64,28 @@ class NotificationsPage extends StatelessWidget {
     );
   }
 
-  void _showSetNotificationPopup(BuildContext context, NotificationModel item) {
-    List<String> teams = [item.team1, item.team2];
+  void _showSetNotificationPopup(
+      BuildContext context, NotificationModel notification) {
+    List<String> teams = [notification.team1, notification.team2];
 
     showDialog(
       context: context,
       builder: (context) => NotificationPopup(
-        selectedNotificationType: item.notificationType,
-        selectedTeam: item.teamInQuestion,
-        selectedWicketCount: item.numberOfWickets,
+        notificationId: notification.id,
+        selectedNotificationType: notification.notificationType,
+        selectedTeam: notification.teamInQuestion,
+        selectedWicketCount: notification.numberOfWickets,
         teams: teams,
       ),
     );
   }
 }
 
-final List<NotificationModel> items = [
-  NotificationModel('Wicket Count', 'Team1', 'Team1', 'Team2', 2),
-  NotificationModel('Innings Started', 'Team1', 'Team1', 'Team2', null),
-  NotificationModel('Wicket Count', 'Team1', 'Team1', 'Team2', 5),
+final List<NotificationModel> notifications = [
+  NotificationModel('notification-1', 'Wicket Count', 'Team1', 'Team1', 'Team2',
+      2, DateTime.now()),
+  NotificationModel('notification-2', 'Innings Started', 'Team1', 'Team1',
+      'Team2', null, DateTime.now()),
+  NotificationModel('notification-3', 'Wicket Count', 'Team1', 'Team1', 'Team2',
+      5, DateTime.now()),
 ];

@@ -3,6 +3,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 // ignore: must_be_immutable
 class NotificationPopup extends StatefulWidget {
+  final String? notificationId;
   final List<String> notificationTypes = ['Innings Started', 'Wicket Count'];
   String selectedNotificationType;
   final List<String> teams;
@@ -13,6 +14,7 @@ class NotificationPopup extends StatefulWidget {
 
   NotificationPopup(
       {super.key,
+      required this.notificationId,
       required this.selectedNotificationType,
       required this.selectedTeam,
       required this.selectedWicketCount,
