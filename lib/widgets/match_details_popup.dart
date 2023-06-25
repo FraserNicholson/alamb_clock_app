@@ -40,7 +40,7 @@ class MatchDetailsPopup extends StatelessWidget {
                           selectedNotificationType: '',
                           selectedTeam: '',
                           selectedWicketCount: null,
-                          teams: [match.team1, match.team1],
+                          teams: [match.team1, match.team2],
                         );
                       },
                     );
