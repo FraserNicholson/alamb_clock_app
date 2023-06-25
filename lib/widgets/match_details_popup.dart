@@ -1,10 +1,11 @@
+import 'package:alamb_clock_app/models/match_model.dart';
 import 'package:alamb_clock_app/widgets/set_notification_popup.dart';
 import 'package:flutter/material.dart';
 
-class ItemDetailsPopup extends StatelessWidget {
-  final String item;
+class MatchDetailsPopup extends StatelessWidget {
+  final MatchModel match;
 
-  const ItemDetailsPopup({super.key, required this.item});
+  const MatchDetailsPopup({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,12 @@ class ItemDetailsPopup extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  item,
-                  style: const TextStyle(
-                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                Flexible(
+                  child: Text(
+                    match.matchTitle,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.notifications),
@@ -37,7 +40,7 @@ class ItemDetailsPopup extends StatelessWidget {
                           selectedNotificationType: '',
                           selectedTeam: '',
                           selectedWicketCount: null,
-                          teams: const ['Team1', 'Team2'],
+                          teams: [match.team1, match.team1],
                         );
                       },
                     );
@@ -46,13 +49,9 @@ class ItemDetailsPopup extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16.0),
-            const Text('Field 1: Value 1'),
+            Text('Match type: ${match.matchType}'),
             const SizedBox(height: 8.0),
-            const Text('Field 2: Value 2'),
-            const SizedBox(height: 8.0),
-            const Text('Field 3: Value 3'),
-            const SizedBox(height: 8.0),
-            const Text('Field 4: Value 4'),
+            Text('Match start time : ${match.matchStartsAt}')
           ],
         ),
       ),

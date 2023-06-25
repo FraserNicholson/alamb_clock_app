@@ -1,5 +1,8 @@
+import 'package:alamb_clock_app/clients/api_client.dart';
+import 'package:alamb_clock_app/models/match_model.dart';
+import 'package:alamb_clock_app/models/matches_response.dart';
 import 'package:alamb_clock_app/widgets/filters_modal.dart';
-import 'package:alamb_clock_app/widgets/item_details_popup.dart';
+import 'package:alamb_clock_app/widgets/match_details_popup.dart';
 import 'package:flutter/material.dart';
 
 class MatchesPage extends StatefulWidget {
@@ -10,7 +13,13 @@ class MatchesPage extends StatefulWidget {
 }
 
 class _MatchesPageState extends State<MatchesPage> {
-  List<String> items = ['Item 1', 'Item 2', 'Item 3'];
+  @override
+  void initState() {
+    super.initState();
+    matchesResponse = getMatches();
+  }
+
+  late Future<MatchesResponse> matchesResponse;
 
   List<String> selectedGenderFilters = [];
   List<String> selectedLevelFilters = [];
@@ -25,11 +34,11 @@ class _MatchesPageState extends State<MatchesPage> {
     );
   }
 
-  void _showItemDetailsPopup(BuildContext context, String item) {
+  void _showItemDetailsPopup(BuildContext context, MatchModel match) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ItemDetailsPopup(item: item);
+        return MatchDetailsPopup(match: match);
       },
     );
   }
@@ -48,39 +57,57 @@ class _MatchesPageState extends State<MatchesPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _showItemDetailsPopup(context, items[index]);
-            },
-            child: Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Item: ${items[index]}',
-                    style: const TextStyle(
-                        fontSize: 18.0, fontWeight: FontWeight.bold),
+      body: FutureBuilder<MatchesResponse>(
+        future: matchesResponse,
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return ListView.builder(
+              itemCount: snapshot.data!.matchesCount,
+              itemBuilder: (BuildContext context, int index) {
+                final match = snapshot.data!.matches[index];
+                return GestureDetector(
+                  onTap: () {
+                    _showItemDetailsPopup(context, match);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          match.matchTitle,
+                          style: const TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Match type: ${match.matchType}.',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          'Match start time : ${match.matchStartsAt}.',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Details: This is the details of ${items[index]}.',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          );
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
     );
