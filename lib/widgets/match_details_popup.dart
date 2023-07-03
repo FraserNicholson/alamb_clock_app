@@ -36,7 +36,7 @@ class MatchDetailsPopup extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return NotificationPopup(
-                          notificationId: null,
+                          matchId: match.id,
                           selectedNotificationType: '',
                           selectedTeam: '',
                           selectedWicketCount: null,

@@ -1,3 +1,5 @@
+import 'package:alamb_clock_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -6,6 +8,9 @@ import 'pages/notifications_page.dart';
 
 void main() async {
   await dotenv.load(fileName: "lib/.env");
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const App());
 }
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:alamb_clock_app/models/notification_model.dart';
+import 'package:alamb_clock_app/models/save_notification_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:alamb_clock_app/models/matches_response.dart';
@@ -31,13 +33,17 @@ Future<MatchesResponse> getMatches() async {
 
 Future<List<NotificationModel>> getNotifications() async {
   var apiUrl = dotenv.env['API_URL'];
-  var getNotificationsEndpointUrl =
-      Uri.parse('$apiUrl/matches/notifications?registrationToken=test-token2');
+  var registrationToken = await FirebaseMessaging.instance.getToken();
+
+  var getNotificationsEndpointUrl = Uri.parse('$apiUrl/matches/notifications');
 
   var apiKey = dotenv.env['API_KEY']!;
 
-  final response = await http.get(getNotificationsEndpointUrl,
-      headers: {'Content-Type': 'application/json', 'X-ALamb-Api-Key': apiKey});
+  final response = await http.get(getNotificationsEndpointUrl, headers: {
+    'Content-Type': 'application/json',
+    'X-ALamb-Api-Key': apiKey,
+    'registrationToken': registrationToken!
+  });
 
   if (response.statusCode == 200) {
     Iterable jsonList = jsonDecode(response.body);
@@ -45,6 +51,31 @@ Future<List<NotificationModel>> getNotifications() async {
         jsonList.map((x) => NotificationModel.fromJson(x)));
     return notifications;
   } else {
-    throw Exception("Error loading matches");
+    throw Exception("Error loading notifications");
+  }
+}
+
+Future<bool> saveNotification(SaveNotificationModel notification) async {
+  var body = json.encode(notification);
+
+  var apiUrl = dotenv.env['API_URL'];
+  var registrationToken = await FirebaseMessaging.instance.getToken();
+
+  var saveNotificationEndpointUrl = Uri.parse('$apiUrl/matches/notification');
+
+  var apiKey = dotenv.env['API_KEY']!;
+
+  final response = await http.post(saveNotificationEndpointUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-ALamb-Api-Key': apiKey,
+        'registrationToken': registrationToken!,
+      },
+      body: body);
+
+  if (response.statusCode == 200 || response.statusCode == 201) {
+    return true;
+  } else {
+    return false;
   }
 }

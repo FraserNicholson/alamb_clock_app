@@ -96,7 +96,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     showDialog(
       context: context,
       builder: (context) => NotificationPopup(
-        notificationId: notification.id,
+        matchId: notification.matchId,
         selectedNotificationType: notification.notificationType,
         selectedTeam: notification.teamInQuestion,
         selectedWicketCount: notification.numberOfWickets,

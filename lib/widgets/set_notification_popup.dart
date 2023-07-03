@@ -1,9 +1,11 @@
+import 'package:alamb_clock_app/clients/api_client.dart';
+import 'package:alamb_clock_app/models/save_notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 // ignore: must_be_immutable
 class NotificationPopup extends StatefulWidget {
-  final String? notificationId;
+  final String matchId;
   final List<String> notificationTypes = ['Innings Started', 'Wicket Count'];
   String selectedNotificationType;
   final List<String> teams;
@@ -14,7 +16,7 @@ class NotificationPopup extends StatefulWidget {
 
   NotificationPopup(
       {super.key,
-      required this.notificationId,
+      required this.matchId,
       required this.selectedNotificationType,
       required this.selectedTeam,
       required this.selectedWicketCount,
@@ -204,7 +206,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
     );
   }
 
-  void _saveNotification() {
+  void _saveNotification() async {
     var (notificationIsValid, errorMessage) = _validateNotification();
 
     if (!notificationIsValid) {
@@ -212,7 +214,23 @@ class _NotificationPopupState extends State<NotificationPopup> {
       return;
     }
 
+    var wicketCount = widget.selectedNotificationType == 'Wicket Count'
+        ? widget.selectedWicketCount
+        : null;
+
+    var saveNotificationModel = SaveNotificationModel(widget.matchId,
+        widget.selectedNotificationType, widget.selectedTeam, wicketCount);
+
+    var savedSuccessfully = await saveNotification(saveNotificationModel);
+
+    if (!savedSuccessfully) {
+      _showErrorNotification('There was a problem saving the notification');
+      return;
+    }
+
     _showSuccessNotification('Notification successfully saved');
+
+    if (!context.mounted) return;
     Navigator.pop(context);
   }
 
