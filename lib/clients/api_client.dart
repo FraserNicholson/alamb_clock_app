@@ -75,3 +75,25 @@ Future<bool> saveNotification(SaveNotificationModel notification) async {
     return false;
   }
 }
+
+Future<void> deleteNotification(String notificationId) async {
+  var apiUrl = dotenv.env['API_URL'];
+  var registrationToken = await FirebaseMessaging.instance.getToken();
+
+  var deleteNotificationEndpointUrl =
+      Uri.parse('$apiUrl/matches/notification/$notificationId');
+
+  var apiKey = dotenv.env['API_KEY']!;
+
+  final response = await http.delete(deleteNotificationEndpointUrl, headers: {
+    'Content-Type': 'application/json',
+    'X-ALamb-Api-Key': apiKey,
+    'registrationToken': registrationToken!,
+  });
+
+  if (response.statusCode == 200) {
+    return;
+  } else {
+    throw Exception("Error deleting notification");
+  }
+}

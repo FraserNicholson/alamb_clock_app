@@ -5,6 +5,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 // ignore: must_be_immutable
 class NotificationPopup extends StatefulWidget {
+  final String? notificationId;
   final String matchId;
   final List<String> notificationTypes = ['Innings Started', 'Wicket Count'];
   String selectedNotificationType;
@@ -16,6 +17,7 @@ class NotificationPopup extends StatefulWidget {
 
   NotificationPopup(
       {super.key,
+      required this.notificationId,
       required this.matchId,
       required this.selectedNotificationType,
       required this.selectedTeam,
@@ -77,7 +79,23 @@ class _NotificationPopupState extends State<NotificationPopup> {
             fontSize: 18.0,
           ),
         ),
-        const SizedBox(width: 48.0),
+        Visibility(
+          visible: widget.notificationId != null,
+          child: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              final bool? delete = await _confirmDeleteNotification();
+
+              if (delete != null && delete) {
+                await _deleteNotification();
+
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              }
+            },
+          ),
+        ),
       ],
     );
   }
@@ -218,8 +236,12 @@ class _NotificationPopupState extends State<NotificationPopup> {
         ? widget.selectedWicketCount
         : null;
 
-    var saveNotificationModel = SaveNotificationModel(widget.matchId,
-        widget.selectedNotificationType, widget.selectedTeam, wicketCount);
+    var saveNotificationModel = SaveNotificationModel(
+        widget.notificationId,
+        widget.matchId,
+        widget.selectedNotificationType,
+        widget.selectedTeam,
+        wicketCount);
 
     var savedSuccessfully = await saveNotification(saveNotificationModel);
 
@@ -283,5 +305,35 @@ class _NotificationPopupState extends State<NotificationPopup> {
             child: const Text('Dismiss'));
       }),
     );
+  }
+
+  Future<bool?> _confirmDeleteNotification() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Are you sure you want to delete this notification?'),
+        content: const Text('This action will permanently delete this data'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('No'),
+          ),
+        ],
+      ),
+    );
+
+    return result;
+  }
+
+  _deleteNotification() async {
+    if (widget.notificationId == null) {
+      return;
+    }
+
+    await deleteNotification(widget.notificationId!);
   }
 }
