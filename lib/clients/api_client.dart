@@ -7,15 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:alamb_clock_app/models/matches_response.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<MatchesResponse> getMatches() async {
+Future<MatchesResponse> getMatches(int pageNumber, String matchType) async {
   var apiUrl = dotenv.env['API_URL'];
   var matchesEndpointUrl = Uri.parse('$apiUrl/matches/query-matches');
 
-  Map data = {
-    'matchType': 'test',
-    'pageNumber': 1,
-    'teamSearchTerm': 'england'
-  };
+  Map data = {'pageNumber': pageNumber, 'matchType': matchType};
   var body = json.encode(data);
 
   var apiKey = dotenv.env['API_KEY']!;

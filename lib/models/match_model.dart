@@ -9,8 +9,9 @@ class MatchModel {
   MatchModel(this.id, this.team1, this.team2, String matchTypeFromJson,
       String unformattedDate) {
     matchStartsAt = DateTime.parse(unformattedDate);
-    matchType =
-        matchTypeFromJson[0].toUpperCase() + matchTypeFromJson.substring(1);
+    matchType = matchTypeFromJson.isNotEmpty
+        ? matchTypeFromJson[0].toUpperCase() + matchTypeFromJson.substring(1)
+        : '';
     matchTitle = "$team1 vs $team2";
   }
 

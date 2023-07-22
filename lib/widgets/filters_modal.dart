@@ -1,8 +1,12 @@
 import 'package:alamb_clock_app/widgets/filter_chip.dart';
 import 'package:flutter/material.dart';
 
+typedef StringCallback = void Function(String string);
+
 class MatchesFiltersModal extends StatefulWidget {
-  const MatchesFiltersModal({super.key});
+  final StringCallback onFormatFilterChanged;
+
+  const MatchesFiltersModal({super.key, required this.onFormatFilterChanged});
 
   @override
   State<MatchesFiltersModal> createState() => _MatchesFiltersModalState();
@@ -13,30 +17,30 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
 
   List<String> selectedLevelFilters = [];
 
-  List<String> selectedFormatFilters = [];
+  String selectedFormatFilter = '';
 
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (context, setState) {
-        void selectFilter(String filter, List<String> selectedFilters,
-            Function(List<String>) onSelectionChanged) {
+        void selectFilter(String filter, String selectedFilter,
+            Function(String) onSelectionChanged) {
           setState(() {
-            if (selectedFilters.contains(filter)) {
-              selectedFilters.remove(filter);
+            if (filter == selectedFilter) {
+              selectedFilter = '';
             } else {
-              selectedFilters.add(filter);
+              selectedFilter = filter;
             }
           });
 
-          onSelectionChanged(selectedFilters);
+          onSelectionChanged(selectedFilter);
         }
 
         void resetFilters() {
           setState(() {
             selectedGenderFilters.clear();
             selectedLevelFilters.clear();
-            selectedFormatFilters.clear();
+            selectedFormatFilter = '';
           });
         }
 
@@ -52,58 +56,15 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              const Text(
-                'Gender',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               FilterChipWidget(
-                options: const ['Female', 'Male'],
-                selectedFilters: selectedGenderFilters,
-                onSelectionChanged: (selectedFilters) {
-                  selectFilter(selectedFilters.first, selectedGenderFilters,
+                options: const ['Test/First class', 'One day', 'T20'],
+                selectedFilter: selectedFormatFilter,
+                onSelectionChanged: (selectedFilter) {
+                  selectFilter(selectedFilter, selectedFormatFilter,
                       (selected) {
-                    selectedGenderFilters = selected;
+                    selectedFormatFilter = selected;
                   });
-                },
-              ),
-              const SizedBox(height: 16.0),
-              const Text(
-                'Level',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              FilterChipWidget(
-                options: const ['Domestic', 'International'],
-                selectedFilters: selectedLevelFilters,
-                onSelectionChanged: (selectedFilters) {
-                  selectFilter(selectedFilters.first, selectedLevelFilters,
-                      (selected) {
-                    selectedLevelFilters = selected;
-                  });
-                },
-              ),
-              const SizedBox(height: 16.0),
-              const Text(
-                'Format',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              FilterChipWidget(
-                options: const ['Test/First class', 'One day', 'T20', '100'],
-                selectedFilters: selectedFormatFilters,
-                onSelectionChanged: (selectedFilters) {
-                  selectFilter(selectedFilters.first, selectedFormatFilters,
-                      (selected) {
-                    selectedFormatFilters = selected;
-                  });
+                  widget.onFormatFilterChanged(selectedFormatFilter);
                 },
               ),
               const SizedBox(height: 16.0),
@@ -112,6 +73,7 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                 child: ElevatedButton(
                   onPressed: () {
                     resetFilters();
+                    widget.onFormatFilterChanged('');
                   },
                   child: const Text('Reset Filters'),
                 ),

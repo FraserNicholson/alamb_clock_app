@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class FilterChipWidget extends StatefulWidget {
   final List<String> options;
-  final List<String> selectedFilters;
-  final Function(List<String>) onSelectionChanged;
+  final String selectedFilter;
+  final Function(String) onSelectionChanged;
 
   const FilterChipWidget({
     super.key,
     required this.options,
-    required this.selectedFilters,
+    required this.selectedFilter,
     required this.onSelectionChanged,
   });
 
@@ -25,10 +25,10 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
         return FilterChip(
           label: Text(filter),
           onSelected: (isSelected) {
-            List<String> selectedFilters = [filter];
-            widget.onSelectionChanged(selectedFilters);
+            String selectedFilter = filter;
+            widget.onSelectionChanged(selectedFilter);
           },
-          selected: widget.selectedFilters.contains(filter),
+          selected: widget.selectedFilter == filter,
           selectedColor: Colors.blue,
         );
       }).toList(),
