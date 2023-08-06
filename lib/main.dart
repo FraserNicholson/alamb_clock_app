@@ -1,16 +1,18 @@
 import 'package:alamb_clock_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'pages/matches_page.dart';
 import 'pages/notifications_page.dart';
 
 void main() async {
   await dotenv.load(fileName: "lib/.env");
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
   runApp(const App());
 }
 
@@ -19,8 +21,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OverlaySupport(
-        child: MaterialApp(
+    return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
         '/matches': (context) => const MatchesPage(),
         '/notifications': (context) => const NotificationsPage(),
       },
-    ));
+    );
   }
 }
 
