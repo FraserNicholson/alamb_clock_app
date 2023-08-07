@@ -87,62 +87,70 @@ class _MatchesPageState extends State<MatchesPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            return Column(
-              children: [
-                Expanded(
-                    child: ListView.builder(
-                  itemCount: snapshot.data!.currentPageCount,
-                  itemBuilder: (BuildContext context, int index) {
-                    final match = snapshot.data!.matches[index];
-                    return GestureDetector(
-                      onTap: () {
-                        _showItemDetailsPopup(context, match);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              match.matchTitle,
-                              style: const TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
+            return snapshot.data!.matchesCount > 0
+                ? Column(
+                    children: [
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: snapshot.data!.currentPageCount,
+                        itemBuilder: (BuildContext context, int index) {
+                          final match = snapshot.data!.matches[index];
+                          return GestureDetector(
+                            onTap: () {
+                              _showItemDetailsPopup(context, match);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    match.matchTitle,
+                                    style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    'Match type: ${match.matchType}.',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    'Match start time : ${match.matchStartsAt}.',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              'Match type: ${match.matchType}.',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              'Match start time : ${match.matchStartsAt}.',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
+                          );
+                        },
+                      )),
+                      Pager(
+                        currentPage: pageNumber,
+                        totalPages: (snapshot.data!.matchesCount / 5).ceil(),
+                        onPageChanged: (page) {
+                          setState(() {
+                            pageNumber = page;
+                            _loadMatches();
+                          });
+                        },
                       ),
-                    );
-                  },
-                )),
-                Pager(
-                  currentPage: pageNumber,
-                  totalPages: (snapshot.data!.matchesCount / 5).ceil(),
-                  onPageChanged: (page) {
-                    setState(() {
-                      pageNumber = page;
-                      _loadMatches();
-                    });
-                  },
-                ),
-              ],
-            );
+                    ],
+                  )
+                : const Center(
+                    child: Text(
+                      'No matches found',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
