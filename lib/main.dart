@@ -23,9 +23,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primaryColor: Colors.white),
       home: const LandingPage(),
       routes: {
         '/matches': (context) => const MatchesPage(),
