@@ -6,11 +6,15 @@ typedef StringCallback = void Function(String string);
 class MatchesFiltersModal extends StatefulWidget {
   final StringCallback onFormatFilterChanged;
   final StringCallback onSearchBoxChanged;
+  final String initialFormatFilter;
+  final String initialSearchTerm;
 
   const MatchesFiltersModal(
       {super.key,
       required this.onFormatFilterChanged,
-      required this.onSearchBoxChanged});
+      required this.onSearchBoxChanged,
+      required this.initialFormatFilter,
+      required this.initialSearchTerm});
 
   @override
   State<MatchesFiltersModal> createState() => _MatchesFiltersModalState();
@@ -21,9 +25,10 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
 
   List<String> selectedLevelFilters = [];
 
-  String selectedFormatFilter = '';
+  late String selectedFormatFilter = widget.initialFormatFilter;
 
-  var textController = TextEditingController();
+  late var textController =
+      TextEditingController(text: widget.initialSearchTerm);
 
   @override
   Widget build(BuildContext context) {

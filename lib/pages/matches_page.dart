@@ -48,6 +48,8 @@ class _MatchesPageState extends State<MatchesPage> {
       context: context,
       builder: (BuildContext context) {
         return MatchesFiltersModal(
+          initialSearchTerm: teamSearchTerm,
+          initialFormatFilter: selectedFormatFilter,
           onFormatFilterChanged: (selectedFilter) {
             setState(() {
               selectedFormatFilter = selectedFilter;
