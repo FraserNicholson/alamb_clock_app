@@ -24,11 +24,12 @@ class _MatchesPageState extends State<MatchesPage> {
 
   int pageNumber = 1;
   String selectedFormatFilter = '';
+  String teamSearchTerm = '';
 
   void _loadMatches() async {
     var matchType = _getMatchTypeForApi(selectedFormatFilter);
 
-    matchesResponse = getMatches(pageNumber, matchType);
+    matchesResponse = getMatches(pageNumber, matchType, teamSearchTerm);
   }
 
   String _getMatchTypeForApi(String friendlyMatchType) {
@@ -51,6 +52,12 @@ class _MatchesPageState extends State<MatchesPage> {
             setState(() {
               selectedFormatFilter = selectedFilter;
               pageNumber = 1;
+              _loadMatches();
+            });
+          },
+          onSearchBoxChanged: (searchTerm) {
+            setState(() {
+              teamSearchTerm = searchTerm;
               _loadMatches();
             });
           },

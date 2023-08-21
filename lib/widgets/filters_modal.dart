@@ -5,8 +5,12 @@ typedef StringCallback = void Function(String string);
 
 class MatchesFiltersModal extends StatefulWidget {
   final StringCallback onFormatFilterChanged;
+  final StringCallback onSearchBoxChanged;
 
-  const MatchesFiltersModal({super.key, required this.onFormatFilterChanged});
+  const MatchesFiltersModal(
+      {super.key,
+      required this.onFormatFilterChanged,
+      required this.onSearchBoxChanged});
 
   @override
   State<MatchesFiltersModal> createState() => _MatchesFiltersModalState();
@@ -18,6 +22,8 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
   List<String> selectedLevelFilters = [];
 
   String selectedFormatFilter = '';
+
+  var textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,8 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
             selectedGenderFilters.clear();
             selectedLevelFilters.clear();
             selectedFormatFilter = '';
+
+            textController.clear();
           });
         }
 
@@ -68,12 +76,30 @@ class _MatchesFiltersModalState extends State<MatchesFiltersModal> {
                 },
               ),
               const SizedBox(height: 16.0),
+              const Text(
+                'Team name',
+                style: TextStyle(fontSize: 16.0),
+              ),
+              TextField(
+                controller: textController,
+                onSubmitted: (text) => {widget.onSearchBoxChanged(text)},
+                decoration: InputDecoration(
+                  hintText: 'Search for a team',
+                  suffixIcon: IconButton(
+                    onPressed: () =>
+                        {textController.clear(), widget.onSearchBoxChanged('')},
+                    icon: const Icon(Icons.clear),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
               Align(
                 alignment: Alignment.centerLeft,
                 child: ElevatedButton(
                   onPressed: () {
                     resetFilters();
                     widget.onFormatFilterChanged('');
+                    widget.onSearchBoxChanged('');
                   },
                   child: const Text('Reset Filters'),
                 ),
