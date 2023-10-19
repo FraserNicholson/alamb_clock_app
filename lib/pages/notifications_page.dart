@@ -72,7 +72,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               Visibility(
                                   visible: notification.numberOfWickets != null,
                                   child: Text(
-                                    'Number of wickers: ${notification.numberOfWickets.toString()}',
+                                    'Number of wickets: ${notification.numberOfWickets.toString()}',
                                     style: const TextStyle(fontSize: 14.0),
                                   ))
                             ],
