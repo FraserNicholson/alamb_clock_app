@@ -42,6 +42,7 @@ dependencies:
   firebase_messaging: ^14.6.4
   firebase_core: ^2.14.0
   pager: ^0.0.5
+  permission_handler: ^11.0.1
 
 dev_dependencies:
   flutter_test:
