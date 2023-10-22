@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class NotificationModel {
   String id;
   String matchId;
@@ -6,7 +8,7 @@ class NotificationModel {
   String teamInQuestion;
   String team1;
   String team2;
-  late DateTime matchStartsAt;
+  late String matchStartsAt;
   int? numberOfWickets;
 
   NotificationModel(
@@ -19,7 +21,9 @@ class NotificationModel {
       this.numberOfWickets,
       String unformattedDate) {
     matchTitle = "$team1 vs $team2";
-    matchStartsAt = DateTime.parse(unformattedDate);
+    var localUnformattedDate =
+        DateFormat("yyyy-MM-dd HH:mm").parse(unformattedDate, true).toLocal();
+    matchStartsAt = DateFormat("yyyy-MM-dd HH:mm").format(localUnformattedDate);
   }
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
